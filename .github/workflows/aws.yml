@@ -1,0 +1,38 @@
+name: Deploy Backend to AWS EC2
+
+# Se activa cada vez que haces un push a la rama 'main'
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # El robot usará un sistema operativo Ubuntu
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Descarga el código del repo en el runner
+
+      - name: Deploy to EC2
+        # Usamos una acción pre-hecha para facilitar la conexión SSH y la ejecución de comandos
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USER }}
+          key: ${{ secrets.AWS_EC2_KEY }}
+          script: |
+            # 1. Navega a la carpeta del backend en tu servidor
+            cd /home/ec2-user/approval-flow-backend
+            
+            # 2. Actualiza el código con los últimos cambios de la rama main
+            git pull
+            
+            # 3. Vuelve al directorio raíz donde está docker-compose
+            cd /home/ec2-user/
+            
+            # 4. Reconstruye y reinicia SOLO el servicio del backend
+            # --force-recreate asegura que el contenedor se reinicie con la nueva imagen
+            docker-compose up -d --build --force-recreate backend
+            
+            # 5. Limpia imágenes de Docker viejas y sin usar para ahorrar espacio
+            docker image prune -a -f
