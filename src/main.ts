@@ -1,5 +1,6 @@
 // approval_flow_backend/src/main.ts
-import 'crypto';
+import { webcrypto } from 'crypto';
+global.crypto = webcrypto as any;
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
