@@ -19,6 +19,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.configService.get<string>('DB_DATABASE'),
       schema: this.configService.get<string>('DB_SCHEMA'),
       entities: [join(__dirname, '/../**/*.entity{.ts,.js}')],
+      ssl: false,
       synchronize: true, 
     };
   }
