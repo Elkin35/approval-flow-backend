@@ -1,9 +1,9 @@
 // approval_flow_backend/src/main.ts
+import 'crypto';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SeedingService } from './database/seeding/seeding.service';
-import 'crypto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
