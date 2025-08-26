@@ -8,9 +8,11 @@ export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
   async sendNewRequestNotification(solicitud: Solicitud) {
-    const aprobador = solicitud.aprobadores[0]; // Ahora solo hay uno
+    const aprobador = solicitud.aprobadores[0];
     const solicitante = solicitud.solicitante;
-    const url = `http://localhost:3000/request/${solicitud.id_solicitud}`; // Cambia localhost:3000 por la URL de tu frontend
+    const frontUrl = process.env.FRONTEND_URL || process.env.FRONT_URL || 'http://localhost:3000';
+    const normalizedFrontUrl = frontUrl.replace(/\/+$/, '');
+    const url = `${normalizedFrontUrl}/request/${solicitud.id_solicitud}`;
 
     await this.mailerService.sendMail({
       to: aprobador.email,
