@@ -1,98 +1,131 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Sistema de Flujo de Aprobaciones - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este repositorio contiene el backend para el Sistema de Flujo de Aprobaciones, desarrollado con **NestJS**, **TypeORM** y **PostgreSQL**. Proporciona una API RESTful para gestionar usuarios, tipos de solicitud, solicitudes de aprobación y su historial.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## ✨ Características Principales
 
-## Description
+-   **Gestión de Usuarios y Roles:** Creación y listado de usuarios con roles (Administrador, Usuario).
+-   **Autenticación JWT:** Sistema de login seguro basado en JSON Web Tokens.
+-   **CRUD de Solicitudes:** Creación, lectura y actualización del estado de solicitudes genéricas.
+-   **Historial de Cambios:** Trazabilidad completa de cada acción realizada sobre una solicitud.
+-   **Notificaciones por Email:** Envío de notificaciones por correo electrónico (usando SendGrid) al asignarse una nueva solicitud.
+-   **Base de Datos Relacional:** Persistencia de datos gestionada con TypeORM sobre PostgreSQL.
+-   **Seeding de Datos:** Inicialización automática de roles, estados, tipos y usuarios de prueba.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🛠️ Tecnologías Utilizadas
 
-```bash
-$ npm install
-```
+-   **Framework:** [NestJS](https://nestjs.com/)
+-   **ORM:** [TypeORM](https://typeorm.io/)
+-   **Base de Datos:** [PostgreSQL](https://www.postgresql.org/)
+-   **Autenticación:** [Passport.js](http://www.passportjs.org/) (Estrategias JWT y Local)
+-   **Validación:** `class-validator` y `class-transformer`
+-   **Notificaciones:** `@nestjs-modules/mailer` (con Nodemailer)
+-   **Contenerización:** [Docker](https://www.docker.com/)
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 🚀 Puesta en Marcha (Desarrollo Local)
 
-# watch mode
-$ npm run start:dev
+### Prerrequisitos
 
-# production mode
-$ npm run start:prod
-```
+-   Node.js (v18 o superior)
+-   npm o yarn
+-   Una instancia de PostgreSQL corriendo (localmente o en Docker)
+-   Git
 
-## Run tests
+### 1. Clonar el Repositorio
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone <URL_DEL_REPOSITORIO_BACKEND>
+cd approval_flow_backend
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2. Instalar Dependencias
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3. Configurar Variables de Entorno
 
-## Resources
+Crea un archivo `.env` en la raíz del proyecto a partir del archivo de ejemplo `.env.example` (si existe) o créalo desde cero con el siguiente contenido:
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+# --- Base de Datos ---
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=tu_usuario_postgres
+DB_PASSWORD=tu_contraseña_postgres
+DB_DATABASE=approval_flow_db
+DB_SCHEMA=flujo_aprobacion
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# --- Autenticación JWT ---
+JWT_SECRET=UNA_CLAVE_SECRETA_MUY_LARGA_Y_SEGURA
+JWT_EXPIRATION_TIME=3600s
 
-## Support
+# --- Notificaciones por Email (Ej: SendGrid) ---
+MAIL_HOST=smtp.sendgrid.net
+MAIL_PORT=587
+MAIL_USER=apikey
+MAIL_PASS=TU_API_KEY_DE_SENDGRID
+MAIL_FROM='"Sistema de Aprobaciones" <tu_email_verificado@ejemplo.com>'
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Nota:** Asegúrate de crear la base de datos `approval_flow_db` en tu instancia de PostgreSQL.
 
-## Stay in touch
+### 4. Iniciar la Aplicación
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npm run start:dev
+```
 
-## License
+La aplicación estará disponible en `http://localhost:3001`. El seeding inicial creará los datos necesarios para empezar a probar.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 🐳 Despliegue con Docker
+
+Este proyecto está preparado para ser desplegado con Docker.
+
+### 1. Construir la Imagen
+
+Desde la raíz del proyecto, ejecuta:
+
+```bash
+docker build -t approval-flow-backend -f Dockerfile.backend .
+```
+
+### 2. Ejecutar el Contenedor
+
+Puedes ejecutar el contenedor pasando las variables de entorno:
+
+```bash
+docker run -p 3001:3001 \
+  --name approval-flow-backend \
+  -e DB_HOST=... \
+  -e DB_PORT=... \
+  # ... (y el resto de las variables de entorno)
+  approval-flow-backend
+```
+
+Para un despliegue completo junto con el frontend, consulta el archivo `docker-compose.yml` en el despliegue de producción.
+
+---
+
+## 📝 Endpoints de la API (Resumen)
+
+-   `POST /auth/login`: Autenticación de usuarios.
+-   `GET /auth/profile`: Obtener perfil del usuario autenticado.
+-   `GET /users`: Listar todos los usuarios.
+-   `POST /users`: Crear un nuevo usuario (requiere rol de Admin).
+-   `POST /solicitudes`: Crear una nueva solicitud de aprobación.
+-   `GET /solicitudes/inbox`: Obtener solicitudes pendientes de aprobación para el usuario actual.
+-   `GET /solicitudes/outbox`: Obtener solicitudes creadas por el usuario actual.
+-   `GET /solicitudes/assigned-to-me`: Historial de solicitudes asignadas al usuario actual.
+-   `GET /solicitudes/:id`: Ver detalles de una solicitud específica.
+-   `PATCH /solicitudes/:id/estado`: Aprobar o rechazar una solicitud.
+-   `GET /historial`: Obtener el historial completo de acciones.
+-   `GET /tipos-solicitud`: Listar los tipos de solicitud disponibles.
+-   `POST /tipos-solicitud`: Crear un nuevo tipo de solicitud.
